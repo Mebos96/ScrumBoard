@@ -11,6 +11,17 @@ const ListsContainer = styled.div`
   flex-wrap:wrap;
   min-height:100px
 `
+const Hint =styled.div`
+  background:rgba(0,0,0,0.7);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  position:absolute;
+  width:100%;
+  bottom:20px;
+`
 class App extends React.Component {
 
   onDragEnd = result => {
@@ -22,10 +33,8 @@ class App extends React.Component {
       }
     })
   };
-
   render(){
-    console.log()
-  return (
+    return (
     <DragDropContext
       onDragEnd={this.onDragEnd}
     >
@@ -35,6 +44,10 @@ class App extends React.Component {
           <List key={list.id} list={list}/>
         ))}
       </ListsContainer>
+      <Hint>
+        <h2>Porada na dzisiaj!</h2>
+        <h3>Jeśli chcesz utworzyć nową tablice z innej tablicy, eliminując podtablice, używaj metody wbudowanej flat</h3>
+      </Hint>
     </DragDropContext>
   );
   }
