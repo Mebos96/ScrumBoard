@@ -2,15 +2,28 @@ import React,{useState} from 'react'
 import Card from './Card'
 import styled from 'styled-components'
 import { Droppable } from 'react-beautiful-dnd'
+import {connect} from 'react-redux'
 
-export default function List({list}) {
+function List({list,dispatch}) {
     const [title,setTitle]=useState('')
     const [text,setText]=useState('')
-    const [isVisible,setIsVisible]=useState(true)
+    const [isVisible,setIsVisible]=useState(false)
 
     const addCard =()=>{
         setIsVisible(!isVisible)
+        if(isVisible === true){
+            dispatch({
+                type:"ADD_CARD",
+                payload:{
+                title:title,
+                text:text
+                }
+            })
+            setTitle("")
+            setText("")
+        }
     }
+
     return (
         <ListContainer key={list.id} cardsAmount={list.cards.length}>
             <ListTitle>{list.title}</ListTitle>
@@ -59,6 +72,7 @@ export default function List({list}) {
         </ListContainer>
     )
 }
+export default connect()(List);
 const ListContainer = styled.div`
     display:flex;
     flex-direction:column;

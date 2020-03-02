@@ -5,23 +5,6 @@ import styled from 'styled-components'
 import List from './List'
 import Navbar from './Navbar';
 
-const ListsContainer = styled.div`
-  width:100%;
-  display:flex;
-  flex-wrap:wrap;
-  min-height:100px
-`
-const Hint =styled.div`
-  background:rgba(0,0,0,0.7);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  position:absolute;
-  width:100%;
-  bottom:20px;
-`
 class App extends React.Component {
 
   onDragEnd = result => {
@@ -56,3 +39,25 @@ const mapStateToProps = state => ({
   lists:state.lists
 })
 export default connect(mapStateToProps)(App);
+
+const ListsContainer = styled.div`
+  width:100%;
+  display:flex;
+  flex-wrap:wrap;
+  min-height:100px
+`
+const Hint =styled.div`
+  background:rgba(0,0,0,0.7);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  position:absolute;
+  width:90%;
+  bottom:20px;
+  left:4%;
+  text-align:center;
+  border-radius:5px;
+  padding:10px
+`

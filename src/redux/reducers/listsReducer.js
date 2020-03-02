@@ -33,10 +33,19 @@ const initialState=[
       cards:[]
     }
 ]
+let cardId = 3;
 const listsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CARD:{
-      return state
+      const {title, text} = action.payload
+      let obj = {
+        id:cardId++,
+        title:title,
+        text:text
+      }
+      let newState = state;
+      newState[0].cards.push(obj)
+      return newState
     }
     case MOVE_CARD:{
       const {source,destination} = action.payload;
