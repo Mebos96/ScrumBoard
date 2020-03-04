@@ -3,15 +3,14 @@ import Card from './Card'
 import styled from 'styled-components'
 import { Droppable } from 'react-beautiful-dnd'
 import {connect} from 'react-redux'
+import AddCardButton from './AddCardButton'
 
 function List({list,dispatch}) {
-    const [title,setTitle]=useState('')
-    const [text,setText]=useState('')
-    const [isVisible,setIsVisible]=useState(false)
-
-    const addCard =()=>{
+    const [isVisible,setIsVisible]=useState(false);
+    
+    const addCard =(title,text)=>{
         setIsVisible(!isVisible)
-        if(isVisible === true){
+        if(isVisible){
             dispatch({
                 type:"ADD_CARD",
                 payload:{
@@ -19,22 +18,19 @@ function List({list,dispatch}) {
                 text:text
                 }
             })
-            setTitle("")
-            setText("")
         }
     }
-
     return (
-        <ListContainer key={list.id} cardsAmount={list.cards.length}>
+        <ListContainer>
             <ListTitle>{list.title}</ListTitle>
             <Droppable droppableId={String(list.id)}>
-                {(provided)=>(
+                {provided=>(
                     <CardsContainer
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                     >
                         {list.cards.map((card,index)=>(
-                            <Card key={card.id} card={card} index={index}/>
+                            <Card key={index} card={card} index={index}/>
                         ))}
                         {provided.placeholder}
                     </CardsContainer>
@@ -42,30 +38,11 @@ function List({list,dispatch}) {
             </Droppable>
             {list.id === 0 
                 ?
-                <React.Fragment>
-                    <AddCardForm visible={isVisible}>
-                        <TitleInput
-                            placeholder="Title"
-                            value={title}
-                            onChange={(e)=>setTitle(e.target.value)}
-                        />
-                        <TextInput
-                            placeholder="Text"
-                            value={text}
-                            onChange={(e)=>setText(e.target.value)}
-                        />
-                    </AddCardForm>
-                    <Buttons>
-                        <AddCardButton onClick={addCard} visible={isVisible}>
-                            <AddCardButtonText>
-                                Add task
-                            </AddCardButtonText>
-                        </AddCardButton>
-                        <CloseButton onClick={()=>setIsVisible(!isVisible)} visible={isVisible}>
-                            ✕
-                        </CloseButton>
-                    </Buttons>
-                </React.Fragment>
+                <AddCardButton
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                    addCard={addCard}
+                />
                 :null
             }
             
@@ -87,9 +64,16 @@ const ListContainer = styled.div`
     box-shadow: 3px 3px 7px #444;
 `
 const ListTitle = styled.h2`
-    padding:10px 5px;
     color:#fff;
-    text-align:center
+    text-align:center;
+    background:#3a3a3a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    min-height:50px;
+    border-radius:5px;
+    box-shadow:0 1px 2px #000;
 `
 const CardsContainer = styled.div`
     width:100%;
@@ -98,65 +82,5 @@ const CardsContainer = styled.div`
     flex-wrap:wrap;
     justify-content:center;
     margin:5px 0;
-`
-const Buttons = styled.div`
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:100%;
-`
-const AddCardButton = styled.button`
-    width: ${props => {
-        if(props.visible === true) return "85%"
-        else return "95%"
-    }};
-    margin:5px;
-    border-radius:5px;
-    background:#4cd137;
-    border:none;
-    cursor: pointer;
-    outline:none;
-    &:active{
-        background:#3bc026
-    }
-`
-const CloseButton = styled.p`
-    display: ${props => {
-        if(props.visible === true) return "block"
-        else return "none"
-    }};
-    padding:5px;
-    font-weight:bold;
-    cursor: pointer;
-    color:#333
-`
-const AddCardButtonText = styled.h3`
-    color:#fff;
-    margin:5px
-`
-const AddCardForm = styled.div`
-    display: ${props => {
-        if(props.visible ===true) return "flex"
-        else return "none"
-    }};
-    flex-direction: column;
-    width:95%;
-`
-const TitleInput = styled.input`
-    margin:2px;
-    height:20px;
-    outline:none;
-    &::placeholder{
-        padding:0 3px
-    }
-`
-const TextInput = styled.textarea`
-    margin:2px;
-    min-height:50px;
-    resize:none;
-    outline:none;
-    &::placeholder{
-        padding:0 3px
-    }
-    
+    min-height:55px;
 `

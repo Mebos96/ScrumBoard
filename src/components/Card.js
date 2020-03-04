@@ -4,7 +4,7 @@ import {Draggable} from 'react-beautiful-dnd'
 
 export default function Card({card,index}) {
     return (
-        <Draggable draggableId={String(card.id)} index={index}>
+        <Draggable key={card.id} draggableId={String(card.id)} index={index}>
             {provided=>(
                 <CardContainer
                     {...provided.draggableProps}
